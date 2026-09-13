@@ -12,19 +12,86 @@
   const coverTitle = cover && cover.querySelector("h1")
     ? cover.querySelector("h1").textContent.trim()
     : "American English Mastery Reference";
+  const STORAGE_KEY = "aem-sidebar-collapsed";
+  const mq = window.matchMedia("(max-width: 900px)");
+
+  let backdrop = document.querySelector(".sidebar-backdrop");
+  if (!backdrop) {
+    backdrop = document.createElement("div");
+    backdrop.className = "sidebar-backdrop";
+    backdrop.setAttribute("aria-hidden", "true");
+    document.body.appendChild(backdrop);
+  }
+
+  function isMobile() {
+    return mq.matches;
+  }
+
+  function isExpanded() {
+    if (isMobile()) return sidebar.classList.contains("open");
+    return !document.body.classList.contains("sidebar-collapsed");
+  }
+
+  function setExpanded(expanded) {
+    if (isMobile()) {
+      document.body.classList.remove("sidebar-collapsed");
+      sidebar.classList.toggle("open", expanded);
+      backdrop.classList.toggle("show", expanded);
+    } else {
+      sidebar.classList.remove("open");
+      backdrop.classList.remove("show");
+      document.body.classList.toggle("sidebar-collapsed", !expanded);
+      try {
+        localStorage.setItem(STORAGE_KEY, expanded ? "0" : "1");
+      } catch (e) {}
+    }
+
+    if (toggle) {
+      toggle.setAttribute("aria-expanded", expanded ? "true" : "false");
+      toggle.setAttribute("aria-label", expanded ? "Hide contents" : "Show contents");
+    }
+  }
+
+  function initSidebar() {
+    if (isMobile()) {
+      setExpanded(false);
+      return;
+    }
+    let collapsed = false;
+    try {
+      collapsed = localStorage.getItem(STORAGE_KEY) === "1";
+    } catch (e) {}
+    setExpanded(!collapsed);
+  }
 
   if (toggle && sidebar) {
     toggle.addEventListener("click", function () {
-      const open = sidebar.classList.toggle("open");
-      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      setExpanded(!isExpanded());
+    });
+
+    backdrop.addEventListener("click", function () {
+      if (isMobile()) setExpanded(false);
     });
 
     links.forEach(function (link) {
       link.addEventListener("click", function () {
-        sidebar.classList.remove("open");
-        toggle.setAttribute("aria-expanded", "false");
+        if (isMobile()) setExpanded(false);
       });
     });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && isMobile() && isExpanded()) {
+        setExpanded(false);
+      }
+    });
+
+    if (mq.addEventListener) {
+      mq.addEventListener("change", initSidebar);
+    } else if (mq.addListener) {
+      mq.addListener(initSidebar);
+    }
+
+    initSidebar();
   }
 
   function setActiveLink(id) {
@@ -56,7 +123,6 @@
     const headerH = header ? header.offsetHeight : 0;
     const markerY = headerH + Math.min(window.innerHeight * 0.22, 140);
 
-    // Progress starts at Part 1 — stay on Cover at 0% until then.
     if (cover) {
       const firstPart = parts[0];
       const beforeParts = !firstPart || firstPart.getBoundingClientRect().top > markerY;

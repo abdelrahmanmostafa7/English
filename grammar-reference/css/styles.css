@@ -35,7 +35,7 @@
   --font-display: "Source Serif 4", Georgia, serif;
   --font-ui: "IBM Plex Sans", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   --font-mono: "IBM Plex Mono", Consolas, Menlo, monospace;
-  --max-w: 48rem;
+  --max-w: 76rem;
   --sidebar-w: 17.5rem;
   --radius: 10px;
   --radius-sm: 6px;
@@ -167,28 +167,73 @@ body {
   border: 1px solid var(--rule);
   background: var(--surface);
   color: var(--ink);
-  padding: 0.35rem 0.75rem;
+  width: 2.15rem;
+  height: 2.15rem;
+  padding: 0;
   border-radius: 999px;
   cursor: pointer;
-  transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
-  white-space: nowrap;
+  transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, color 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
 }
 .progress-bar-row button:hover,
 .toc-toggle:hover {
   background: var(--accent-soft);
   border-color: #bcd7dc;
 }
+.toc-toggle[aria-expanded="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.toc-toggle[aria-expanded="true"]:hover {
+  background: var(--accent-2);
+  border-color: var(--accent-2);
+  color: #fff;
+}
+.toc-toggle::before,
+.toc-toggle::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0.85rem;
+  height: 1.5px;
+  background: currentColor;
+  border-radius: 1px;
+  transition: transform 0.18s ease, opacity 0.18s ease, width 0.18s ease;
+}
+.toc-toggle::before {
+  box-shadow: 0 -5px 0 currentColor, 0 5px 0 currentColor;
+  transform: translate(-50%, -50%);
+}
+.toc-toggle::after {
+  opacity: 0;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.toc-toggle[aria-expanded="true"]::before {
+  box-shadow: none;
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+.toc-toggle[aria-expanded="true"]::after {
+  opacity: 1;
+}
 
 .layout {
   display: grid;
   grid-template-columns: var(--sidebar-w) 1fr;
   min-height: calc(100vh - 3rem);
+  transition: grid-template-columns 0.22s ease;
 }
 
 .sidebar {
   position: sticky;
   top: 0;
   height: 100vh;
+  overflow-x: hidden;
   overflow-y: auto;
   background: rgba(255, 255, 255, 0.72);
   backdrop-filter: blur(8px);
@@ -197,6 +242,19 @@ body {
   font-family: var(--font-ui);
   font-size: 0.78rem;
   line-height: 1.4;
+  transition: opacity 0.18s ease, padding 0.22s ease, border-color 0.22s ease;
+}
+
+body.sidebar-collapsed .layout {
+  grid-template-columns: 0 1fr;
+}
+
+body.sidebar-collapsed .sidebar {
+  opacity: 0;
+  padding-left: 0;
+  padding-right: 0;
+  border-right-color: transparent;
+  pointer-events: none;
 }
 
 
@@ -356,11 +414,24 @@ code, .form-pattern {
   font-weight: 650;
 }
 
-.cover .subtitle {
-  font-size: 1.15rem;
+.cover .subtitle,
+.cover-summary {
+  font-size: 1.05rem;
   color: var(--ink-soft);
-  margin: 0.75rem 0 1.25rem;
-  max-width: 36rem;
+  margin: 0.9rem 0 0;
+  max-width: 56rem;
+  line-height: 1.55;
+}
+
+.cover-summary p {
+  margin: 0.55rem 0;
+}
+
+.cover-summary strong {
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 0.92em;
+  font-weight: 650;
 }
 
 .cover .meta {
@@ -410,14 +481,35 @@ code, .form-pattern {
 
 /* ---------- Parts ---------- */
 .part {
-  margin: 3rem 0 2rem;
-  padding-top: 0.25rem;
+  margin: 2.25rem 0;
+  padding: 1.75rem 1.65rem 2rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: calc(var(--radius) + 4px);
+  box-shadow: var(--shadow-sm);
+  scroll-margin-top: 4.5rem;
+}
+
+.part + .part {
+  margin-top: 2.75rem;
 }
 
 .part-header {
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--rule);
+  margin: -0.15rem -0.15rem 1.6rem;
+  padding: 0 0.15rem 1.15rem;
+  border-bottom: 2px solid var(--accent-soft);
+  position: relative;
+}
+
+.part-header::after {
+  content: "";
+  position: absolute;
+  left: 0.15rem;
+  bottom: -2px;
+  width: 3.25rem;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 2px;
 }
 
 .part-number {
@@ -433,12 +525,25 @@ code, .form-pattern {
 .part-intro {
   color: var(--ink-soft);
   font-size: 1.04rem;
-  max-width: 40rem;
+  max-width: 60rem;
   margin-top: 0.55rem;
 }
 
 .section {
   margin: 2rem 0;
+  padding-top: 0.35rem;
+}
+
+.part > h3 {
+  margin-top: 2.35rem;
+  padding-top: 1.35rem;
+  border-top: 1px solid var(--rule-light);
+}
+
+.part > h3:first-of-type {
+  margin-top: 1.5rem;
+  padding-top: 0;
+  border-top: none;
 }
 
 .rule-block {
@@ -771,16 +876,30 @@ caption {
   .layout {
     grid-template-columns: 1fr;
   }
+  body.sidebar-collapsed .layout {
+    grid-template-columns: 1fr;
+  }
   .sidebar {
     position: fixed;
     left: 0;
     top: 3.5rem;
     width: min(85vw, var(--sidebar-w));
+    height: calc(100vh - 3.5rem);
     z-index: 90;
     transform: translateX(-105%);
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease, opacity 0.2s ease;
     box-shadow: 2px 0 16px rgba(0, 0, 0, 0.1);
     background: #fff;
+    opacity: 1;
+    padding: 1.1rem 0.85rem 2rem;
+    border-right: 1px solid var(--rule);
+    pointer-events: auto;
+  }
+  body.sidebar-collapsed .sidebar {
+    opacity: 1;
+    padding: 1.1rem 0.85rem 2rem;
+    border-right: 1px solid var(--rule);
+    pointer-events: auto;
   }
   .progress-title {
     font-size: 0.82rem;
@@ -788,31 +907,33 @@ caption {
   .sidebar.open {
     transform: translateX(0);
   }
+  .sidebar-backdrop {
+    display: none;
+    position: fixed;
+    inset: 3.5rem 0 0;
+    background: rgba(20, 24, 31, 0.28);
+    z-index: 80;
+  }
+  .sidebar-backdrop.show {
+    display: block;
+  }
   .two-col {
     grid-template-columns: 1fr;
   }
   .index-alpha {
     columns: 1;
   }
-  .toc-toggle {
-    display: inline-block;
-  }
   .cover {
     padding: 1.6rem 1.2rem;
   }
+  .part {
+    padding: 1.35rem 1.1rem 1.55rem;
+    margin: 1.65rem 0;
+  }
+  .part + .part {
+    margin-top: 2rem;
+  }
   .rule-head {
     align-items: flex-start;
-  }
-}
-
-@media (min-width: 901px) {
-  .toc-toggle {
-    display: none;
-  }
-}
-
-@media screen {
-  .print-only {
-    display: none;
   }
 }

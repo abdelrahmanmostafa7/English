@@ -79,19 +79,25 @@ def build():
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/print.css" media="print">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header no-print">
-    <a class="brand" href="#cover">American English Mastery</a>
-    <div class="header-actions">
-      <button type="button" class="toc-toggle" id="tocToggle" aria-expanded="false">Contents</button>
-      <button type="button" id="printBtn">Print / Save PDF</button>
+  <header class="site-header reading-progress" aria-label="Reading progress">
+    <div class="progress-bar-row">
+      <button type="button" class="toc-toggle" id="tocToggle" aria-controls="sidebar" aria-expanded="true" aria-label="Hide contents"></button>
+      <div class="progress-meta">
+        <span class="progress-part" id="progressPart">Cover</span>
+        <span class="progress-title" id="progressTitle">American English Mastery Reference</span>
+        <span class="progress-pct" id="progressPct" aria-hidden="true">0%</span>
+      </div>
     </div>
+    <div class="progress-track" aria-hidden="true">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <p class="visually-hidden" id="progressStatus" role="status" aria-live="polite"></p>
   </header>
   <div class="layout">
-    <aside class="sidebar no-print" id="sidebar" aria-label="Table of contents">
+    <aside class="sidebar" id="sidebar" aria-label="Table of contents">
       <h2>Contents</h2>
       {sidebar_html()}
     </aside>
@@ -100,11 +106,15 @@ def build():
         <header class="cover" id="cover">
           <p class="eyebrow">General American · A1 → C2 · Reference Edition</p>
           <h1>American English Mastery Reference</h1>
-          <p class="subtitle">Pronunciation · 3000 Core Vocabulary · Daily Expressions · Connected Speech · Natural Communication</p>
+          <div class="cover-summary">
+            <p><strong>What it is.</strong> General American pronunciation, 3000 core vocabulary items, daily expressions, and connected-speech patterns for natural listening and speaking.</p>
+            <p><strong>How to use it.</strong> Follow the path Sounds → Words → Stress → Expressions → Connected Speech → Conversation, then use the tables and indexes whenever you need a quick check.</p>
+            <p><strong>Why we made it.</strong> So you can sound clearer, understand real American English faster, and communicate with confidence at work and in daily life.</p>
+          </div>
         </header>
         {parts_html}
         <footer class="site-footer">
-          <p>American English Mastery Reference · General American · A1–C2 · Print on A4</p>
+          <p>American English Mastery Reference · General American · A1–C2</p>
         </footer>
       </main>
     </div>

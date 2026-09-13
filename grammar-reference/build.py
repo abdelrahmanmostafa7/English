@@ -75,21 +75,27 @@ def build():
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/print.css" media="print">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
-  <header class="site-header no-print">
-    <a class="brand" href="#cover">English Grammar Reference A1–C2</a>
-    <div class="header-actions">
-      <button type="button" class="toc-toggle" id="tocToggle" aria-expanded="false">Contents</button>
-      <button type="button" id="printBtn">Print / Save PDF</button>
+  <header class="site-header reading-progress" aria-label="Reading progress">
+    <div class="progress-bar-row">
+      <button type="button" class="toc-toggle" id="tocToggle" aria-controls="sidebar" aria-expanded="true" aria-label="Hide contents"></button>
+      <div class="progress-meta">
+        <span class="progress-part" id="progressPart">Cover</span>
+        <span class="progress-title" id="progressTitle">English Grammar Reference</span>
+        <span class="progress-pct" id="progressPct" aria-hidden="true">0%</span>
+      </div>
     </div>
+    <div class="progress-track" aria-hidden="true">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <p class="visually-hidden" id="progressStatus" role="status" aria-live="polite"></p>
   </header>
 
   <div class="layout">
-    <aside class="sidebar no-print" id="sidebar" aria-label="Table of contents">
+    <aside class="sidebar" id="sidebar" aria-label="Table of contents">
       <h2>Contents</h2>
       {sidebar_html()}
     </aside>
@@ -99,13 +105,17 @@ def build():
         <header class="cover" id="cover">
           <p class="eyebrow">CEFR A1 → C2 · Reference Edition</p>
           <h1>English Grammar Reference</h1>
-          <p class="subtitle">A complete, print-ready grammar book for long-term study and lookup — from foundations through advanced academic and professional English.</p>
+          <div class="cover-summary">
+            <p><strong>What it is.</strong> A complete grammar reference from A1 foundations to C2 academic and professional English — rules, forms, examples, and common mistakes in one place.</p>
+            <p><strong>How to use it.</strong> Start with Part 1, study each topic with its examples, then return anytime through Contents and the indexes for fast lookup.</p>
+            <p><strong>Why we made it.</strong> So you have a durable long-term study companion — not a short course you finish and forget.</p>
+          </div>
         </header>
 
         {parts_html}
 
         <footer class="site-footer">
-          <p>English Grammar Reference A1–C2 · Reference edition · For personal study · Print on A4</p>
+          <p>English Grammar Reference A1–C2 · Reference edition · For personal study</p>
         </footer>
       </main>
     </div>
