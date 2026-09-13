@@ -84,6 +84,7 @@ def build():
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header reading-progress" aria-label="Reading progress">
     <div class="progress-bar-row">
+      <a class="home-link" href="../index.html" aria-label="Home" title="Home"></a>
       <button type="button" class="toc-toggle" id="tocToggle" aria-controls="sidebar" aria-expanded="true" aria-label="Hide contents"></button>
       <div class="progress-meta">
         <span class="progress-part" id="progressPart">Cover</span>

@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Two complementary English references: Grammar A1–C2 and American English Mastery."
+    />
+    <title>English References</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --ink: #14181f;
+        --ink-soft: #3a4352;
+        --muted: #6b7585;
+        --paper: #eef2f5;
+        --surface: #ffffff;
+        --accent: #0f4c5c;
+        --accent-2: #1a6b7c;
+        --accent-soft: #dceef1;
+        --warm: #c45c26;
+        --rule: #d7dee6;
+        --font-display: "Source Serif 4", Georgia, serif;
+        --font-ui: "IBM Plex Sans", "Segoe UI", sans-serif;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        font-family: var(--font-ui);
+        background:
+          radial-gradient(1100px 520px at 8% -8%, #d5ebef 0%, transparent 55%),
+          radial-gradient(900px 480px at 100% 0%, #e4e9f2 0%, transparent 50%),
+          radial-gradient(700px 400px at 70% 100%, #e8f0f2 0%, transparent 45%),
+          var(--paper);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .page {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* ---------- Hero ---------- */
+      .hero {
+        padding: clamp(3.5rem, 9vw, 6.5rem) clamp(1.25rem, 4vw, 3rem)
+          clamp(2.5rem, 5vw, 3.5rem);
+        max-width: 72rem;
+        margin: 0 auto;
+        width: 100%;
+        animation: rise 0.7s ease both;
+      }
+
+      .brand {
+        font-family: var(--font-display);
+        font-size: clamp(2.6rem, 7vw, 4.4rem);
+        font-weight: 700;
+        letter-spacing: -0.035em;
+        line-height: 1.05;
+        color: var(--accent);
+        margin: 0 0 1rem;
+      }
+
+      .hero-line {
+        margin: 0;
+        max-width: 34rem;
+        font-size: clamp(1.05rem, 2.2vw, 1.25rem);
+        line-height: 1.55;
+        color: var(--ink-soft);
+      }
+
+      /* ---------- Routes ---------- */
+      .routes {
+        flex: 1;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+        border-top: 1px solid var(--rule);
+      }
+
+      .route {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        min-height: clamp(22rem, 48vh, 30rem);
+        padding: clamp(2rem, 4vw, 3.25rem);
+        overflow: hidden;
+        isolation: isolate;
+        transition: background 0.25s ease;
+      }
+
+      .route::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        opacity: 0.9;
+        transition:
+          transform 0.45s ease,
+          opacity 0.25s ease;
+      }
+
+      .route-grammar::before {
+        background:
+          linear-gradient(160deg, rgba(15, 76, 92, 0.08), transparent 55%),
+          linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.55)),
+          repeating-linear-gradient(
+            -12deg,
+            transparent,
+            transparent 22px,
+            rgba(15, 76, 92, 0.035) 22px,
+            rgba(15, 76, 92, 0.035) 23px
+          );
+      }
+
+      .route-mastery::before {
+        background:
+          linear-gradient(200deg, rgba(196, 92, 38, 0.1), transparent 50%),
+          linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.55)),
+          radial-gradient(
+            circle at 85% 20%,
+            rgba(26, 107, 124, 0.12),
+            transparent 40%
+          );
+      }
+
+      .route + .route {
+        border-left: 1px solid var(--rule);
+      }
+
+      .route:hover::before,
+      .route:focus-within::before {
+        transform: scale(1.03);
+        opacity: 1;
+      }
+
+      .route-kicker {
+        font-size: 0.72rem;
+        font-weight: 650;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin: 0 0 0.85rem;
+        animation: rise 0.75s ease 0.08s both;
+      }
+
+      .route-grammar .route-kicker {
+        color: var(--accent-2);
+      }
+      .route-mastery .route-kicker {
+        color: var(--warm);
+      }
+
+      .route-title {
+        font-family: var(--font-display);
+        font-size: clamp(1.85rem, 3.4vw, 2.55rem);
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        line-height: 1.15;
+        margin: 0 0 0.9rem;
+        max-width: 16ch;
+      }
+
+      .route-copy {
+        margin: 0 0 1.75rem;
+        max-width: 28rem;
+        color: var(--ink-soft);
+        font-size: 1.02rem;
+        line-height: 1.55;
+      }
+
+      .route-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.55rem;
+        align-self: flex-start;
+        font-weight: 600;
+        font-size: 0.95rem;
+        padding: 0.7rem 1.15rem;
+        border-radius: 999px;
+        border: 1px solid transparent;
+        transition:
+          transform 0.2s ease,
+          background 0.2s ease,
+          border-color 0.2s ease,
+          color 0.2s ease;
+        cursor: pointer;
+      }
+
+      .route-grammar .route-cta {
+        background: var(--accent);
+        color: #fff;
+      }
+
+      .route-mastery .route-cta {
+        background: var(--ink);
+        color: #fff;
+      }
+
+      .route:hover .route-cta,
+      .route:focus-within .route-cta {
+        transform: translateX(4px);
+      }
+
+      .route-cta svg {
+        width: 1rem;
+        height: 1rem;
+        transition: transform 0.2s ease;
+      }
+
+      .route:hover .route-cta svg,
+      .route:focus-within .route-cta svg {
+        transform: translateX(3px);
+      }
+
+      .route-meta {
+        margin-top: 1.15rem;
+        font-size: 0.78rem;
+        color: var(--muted);
+        letter-spacing: 0.02em;
+      }
+
+      .route:nth-child(1) {
+        animation: rise 0.8s ease 0.12s both;
+      }
+      .route:nth-child(2) {
+        animation: rise 0.8s ease 0.22s both;
+      }
+
+      @keyframes rise {
+        from {
+          opacity: 0;
+          transform: translateY(14px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 860px) {
+        .routes {
+          grid-template-columns: 1fr;
+        }
+
+        .route + .route {
+          border-left: none;
+          border-top: 1px solid var(--rule);
+        }
+
+        .route {
+          min-height: 18rem;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header class="hero">
+        <h1 class="brand">English References</h1>
+        <p class="hero-line">
+          Two complementary study books — structure in one, natural American
+          English in the other.
+        </p>
+      </header>
+
+      <main class="routes" aria-label="Choose a reference">
+        <a class="route route-grammar" href="grammar-reference/index.html">
+          <p class="route-kicker">Book 01 · CEFR A1–C2</p>
+          <h2 class="route-title">English Grammar Reference</h2>
+          <p class="route-copy">
+            Rules, forms, examples, and common mistakes — from sentence
+            foundations through advanced academic and professional English.
+          </p>
+          <span class="route-cta">
+            Open grammar
+            <svg
+              viewBox="0 0 16 16"
+              aria-hidden="true"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M3 8h10M9 4l4 4-4 4"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </span>
+          <p class="route-meta">34 parts · tenses · clauses · indexes</p>
+        </a>
+
+        <a
+          class="route route-mastery"
+          href="american-english-mastery/index.html"
+        >
+          <p class="route-kicker">Book 02 · General American</p>
+          <h2 class="route-title">American English Mastery</h2>
+          <p class="route-copy">
+            Pronunciation, vocabulary, expressions, and connected speech for
+            clearer listening and more natural communication.
+          </p>
+          <span class="route-cta">
+            Open mastery
+            <svg
+              viewBox="0 0 16 16"
+              aria-hidden="true"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M3 8h10M9 4l4 4-4 4"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </span>
+          <p class="route-meta">
+            38 parts · sounds · expressions · workplace English
+          </p>
+        </a>
+      </main>
+    </div>
+  </body>
+</html>

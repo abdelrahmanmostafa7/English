@@ -160,7 +160,8 @@ body {
 }
 
 .progress-bar-row button,
-.toc-toggle {
+.toc-toggle,
+.home-link {
   font-family: var(--font-ui);
   font-size: 0.78rem;
   font-weight: 500;
@@ -178,11 +179,22 @@ body {
   justify-content: center;
   flex-shrink: 0;
   position: relative;
+  text-decoration: none;
 }
 .progress-bar-row button:hover,
-.toc-toggle:hover {
+.toc-toggle:hover,
+.home-link:hover {
   background: var(--accent-soft);
   border-color: #bcd7dc;
+  color: var(--accent);
+}
+
+.home-link::before {
+  content: "";
+  width: 0.92rem;
+  height: 0.82rem;
+  background: currentColor;
+  clip-path: polygon(50% 0%, 100% 42%, 78% 42%, 78% 100%, 58% 100%, 58% 68%, 42% 68%, 42% 100%, 22% 100%, 22% 42%, 0% 42%);
 }
 .toc-toggle[aria-expanded="true"] {
   background: var(--accent);
